@@ -4,11 +4,14 @@ import (
 	"encoding/csv"
 	"flag"
 	"fmt"
+	"math/rand"
 	"os"
+	"strings"
 )
 
 func main() {
 	filename := flag.String("csv", "problems.csv", "The csv file that contains the quiz in the order 'question,answer'")
+	shuffle := flag.Bool("shuffle", false, "Should shuffle the questions or not")
 	flag.Parse()
 
 	file, err := os.Open(*filename)
@@ -25,6 +28,12 @@ func main() {
 	}
 
 	parsed := parseLines(lines)
+
+	if *shuffle {
+		rand.Shuffle(len(parsed), func(i, j int) {
+			parsed[i], parsed[j] = parsed[j], parsed[i]
+		})
+	}
 
 	correctCount := 0
 
@@ -54,7 +63,7 @@ func parseLines(lines [][]string) []problem {
 	for index, line := range lines {
 		problemSlice[index] = problem{
 			q: line[0],
-			a: line[1],
+			a: strings.TrimSpace(line[1]),
 		}
 	}
 
