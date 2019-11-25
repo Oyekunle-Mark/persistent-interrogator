@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/csv"
 	"flag"
 	"fmt"
 	"os"
@@ -13,8 +14,19 @@ func main() {
 	file, err := os.Open(*filename)
 
 	if err != nil {
-		fmt.Printf("Cannot open the file %s\n", *filename)
-		os.Exit(1)
+		exit(fmt.Sprintf("Cannot open the file %s\n", *filename))
 	}
-	_ = file
+
+	r := csv.NewReader(file)
+	line, err := r.ReadAll()
+
+	if err != nil {
+		exit("Cannot reading the csv file")
+	}
+	fmt.Println(line)
+}
+
+func exit(errorMsg string) {
+	fmt.Println(errorMsg)
+	os.Exit(1)
 }
