@@ -25,10 +25,22 @@ func main() {
 	}
 
 	parsed := parseLines(lines)
-	
+
+	correctCount := 0
+
 	for index, problem := range parsed {
-		fmt.Printf("Question #%d: %s = \n", index + 1, problem.q)
+		fmt.Printf("Question #%d: %s = ", index+1, problem.q)
+
+		var response string
+		fmt.Scanf("%s", &response)
+
+		if response == problem.a {
+			correctCount++
+		}
+
 	}
+
+	fmt.Printf("You scored %d, out of %d questions\n", correctCount, len(parsed))
 }
 
 type problem struct {
