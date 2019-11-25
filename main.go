@@ -18,12 +18,32 @@ func main() {
 	}
 
 	r := csv.NewReader(file)
-	line, err := r.ReadAll()
+	lines, err := r.ReadAll()
 
 	if err != nil {
 		exit("Cannot reading the csv file")
 	}
-	fmt.Println(line)
+
+	parsed := parseLines(lines)
+	fmt.Println(parsed)
+}
+
+type problem struct {
+	q string
+	a string
+}
+
+func parseLines(lines [][]string) []problem {
+	problemSlice := make([]problem, len(lines))
+
+	for index, line := range lines {
+		problemSlice[index] = problem{
+			q: line[0],
+			a: line[1],
+		}
+	}
+
+	return problemSlice
 }
 
 func exit(errorMsg string) {
