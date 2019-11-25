@@ -25,7 +25,10 @@ func main() {
 	}
 
 	parsed := parseLines(lines)
-	fmt.Println(parsed)
+	
+	for index, problem := range parsed {
+		fmt.Printf("Question #%d: %s = \n", index + 1, problem.q)
+	}
 }
 
 type problem struct {
